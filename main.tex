@@ -34,6 +34,8 @@
 \usepackage{comment}
 \usepackage{xfrac}
 
+%\usepackage{multicol}
+
 \title{\LARGE \bf
 Co-optimization of Application and Architecture
 for a Coarse Grained Re-configurable Architecture
@@ -65,12 +67,12 @@ The \texttt{FUs} run instructions in parallel. Each \texttt{FU} has it's own set
 
 The \texttt{CGRA} is situated between the Von Neumann \texttt{CPU} architecture\cite{Neumann} and the \texttt{FPGA} in the computing landscape. While it is possible to create the traditional Von Neumann architecture in the \texttt{CGRA}, the bottlenecks for certain applications can be circumvented in the \texttt{CGRA}. It also supports the definition of custom \texttt{FUs}, which could theoretically provide \texttt{FPGA}-like functionality. Hence the best applications of the \texttt{CGRA} are found somewhere in between these two.
 \[
-EDAP = Energy \  x \  Delay_{cycles} \ x  \
+EDAP = Energy \  \texttt{x} \  Delay_{cycles} \ \texttt{x} \
 Area 
 \]
 
 \[
-Performance = \frac{EDAP_{old}-EDAP_{new}}{EDAP_{old}}*100
+Performance = \frac{EDAP_{old}-EDAP_{new}}{EDAP_{old}} \ \texttt{x} \ 100
 \]
 
 \section{Optimizations}
@@ -89,7 +91,7 @@ From the \texttt{C}-implementation it can be seen that the arrays \texttt{a[]} a
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[scale=0.265]{images/assem02.png}
+\includegraphics[width=\linewidth]{images/assem02.png}
 \caption{Excerpt from the Butterworth Filter code from alteration \ref{imp:B}: Loop Halving. Only lines 79 through 108 are shown to clarify alterations to the \texttt{IMM}, \texttt{LSU}, and \texttt{ALU}.}
 \label{fig:assem02}
 \end{center}
@@ -100,9 +102,9 @@ From the \texttt{C}-implementation it can be seen that the arrays \texttt{a[]} a
 
 The exploration of targeting the implicit loading operations lead to negligible improvements. This was expected, as the changes to the code are outside of the main loop, and act as a preemptive optimization. This is completed by changing the \texttt{SLA} operation to a \texttt{SLI} operation with a stride of four. This removes the necessity to compute the memory addresses in the \texttt{ALU} which saves a whopping $42$ cycles. This is shown in Fig. \ref{fig:assem01} on the next page.
 
-\begin{figure}[h!]
+\begin{figure}[ht]
 \begin{center}
-\includegraphics[scale=0.35]{images/assem01.png}
+\includegraphics[width=\linewidth]{images/assem01.png}
 \caption{Excerpt from the Butterworth Filter code from alteration \ref{imp:C}: Automatic Addressing. Only lines 1 through 36 are shown to clarify alterations to the \texttt{IMM} and \texttt{LSU}.}
 \label{fig:assem01}
 \end{center}
@@ -118,29 +120,29 @@ An attempt was made for loop unpacking, as a colleague informed us they were abl
 
 The resulting architecture is shown below:
 
-\begin{figure}[h!]
+\begin{figure}[ht]
 \begin{center}
-\includegraphics[scale=0.35]{images/arch01.png}
+\includegraphics[width=\linewidth]{images/arch01.png}
 \caption{XML file showing additional connections}
 \label{fig:TODO1}
 \end{center}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht]
 \begin{center}
-\includegraphics[scale=0.27]{images/arch.png}
+\includegraphics[scale=0.35]{images/arch.png}
 \caption{Graphical representation using Xdot Architecture file of new connections.}
 \label{fig:TODO2}
 \end{center}
 \end{figure}
 
-\pagebreak
+%\pagebreak
 
 \section{Results}
 
 The results have been compiled and placed into Table \ref{tab:compare} below:
 
-\begin{table}[h!]
+\begin{table}[ht]
 \centering
 \caption{Table comparing Duration to Start and End times.}
 \label{tab:compare}
@@ -154,7 +156,7 @@ Energy [pJ] & $8813057.25$  & $8506457.25$ & $6213457.25$ & $6213089.50$ \\ \hli
 Cycles & $896146$ & $854146$ & $654146$ & $654104$ \\ \hline
 Area [$\mu m^2$] & $89819$ & $90019$ & $90019$ & $90019$ \\ \hline
 EDAP & $0.70937$ & $0.65406$ & $0.36588$ & $0.36584$ \\ \hline
-$\Delta\pm\%$ (Naive) & $+0.00\%$ & $+7.80\%$ & $+48.42\%$ & $+48.43\%$ \\ \hline
+$\Delta\pm\%$ & $+0.00\%$ & $+7.80\%$ & $+48.42\%$ & $+48.43\%$ \\ \hline
 
 \end{tabular}
 \end{table}
