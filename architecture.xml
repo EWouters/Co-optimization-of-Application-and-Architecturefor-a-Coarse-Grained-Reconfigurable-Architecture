@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<architecture>
+    <Includes>
+        <Base file="../../Common/32b.xml"/> <!-- Inherit from base configuration -->
+    </Includes> 
+    <configuration>
+		<functionalunits>			
+			<fu type="ID" name='id_abu'> <!-- IDs -->
+				<input index="0" source="abu.1"/>
+			</fu>
+			<fu type="ID" name='id_lsu'>
+				<input index="0" source="abu.1"/>
+			</fu>
+			<fu type="ID" name='id_alu'>
+				<input index="0" source="abu.1"/>
+			</fu>
+			<fu type="ID" name='id_mul'>
+				<input index="0" source="abu.1"/>
+			</fu>
+			<fu type="ID" name='id_rf'>
+				<input index="0" source="abu.1"/>
+			</fu>
+
+			<fu type="LSU" name='lsu' ID="id_lsu"> <!-- FUs -->
+				<input index="0" source="imm.0"/>	
+				<input index="1" source="rf.1"/>
+				<input index="2" source="rf.0"/>
+			</fu>
+			<fu type="ALU" name='alu' ID="id_alu" config="0">
+				<input index="0" source="rf.0"/>
+				<input index="1" source="rf.1"/>
+				<input index="2" source="mul.0"/>
+			</fu>
+			<fu type="MUL" name='mul' ID="id_mul" config="1">
+				<input index="0" source="rf.0"/>
+				<input index="1" source="rf.1"/>
+				<input index="2" source="alu.1"/>
+			</fu>
+			<fu type="RF" name='rf' ID="id_rf">
+				<input index="0" source="imm.0"/>
+				<input index="1" source="lsu.1"/>		
+				<input index="2" source="alu.1"/>	
+				<input index="3" source="mul.0"/>	
+			</fu>
+			<fu type="ABU" name='abu' ID="id_abu" config="1">
+				<input index="0" source="alu.1"/>
+				<input index="1" source="rf.1"/>
+			</fu>
+			<fu type="IU" name='imm'>
+				<input index="0" source="abu.1"/>
+			</fu>
+		</functionalunits>	
+    </configuration>
+    <Core>
+        <Peripherals>                    
+            <Peripheral type="Console" name="CON" addr_offset="32768"/>            
+        </Peripherals>
+        <Memory type="">
+            <GM width="32" depth="8192" addresswidth="32" interface="DTL"/>
+        </Memory>
+    </Core>
+</architecture>
