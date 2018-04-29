@@ -65,6 +65,8 @@ The \texttt{FUs} run instructions in parallel. Each \texttt{FU} has it's own set
 
 The \texttt{CGRA} is situated between the Von Neumann \texttt{CPU} architecture\cite{Neumann} and the \texttt{FPGA} in the computing landscape. While it is possible to create the traditional Von Neumann architecture in the \texttt{CGRA}, the bottlenecks for certain applications can be circumvented in the \texttt{CGRA}. It also supports the definition of custom \texttt{FUs}, which could theoretically provide \texttt{FPGA}-like functionality. Hence the best applications of the \texttt{CGRA} are found somewhere in between these two.
 
+
+
 \section{Optimizations}
 
 \subsection{Initial Bypass}
@@ -79,7 +81,7 @@ By adding the bypass and running various \texttt{Make} features, it can be shown
 
 From the \texttt{C}-implementation it can be seen that the arrays \texttt{a[]} and \texttt{b[]} contain zeros alternating with integers which will be used for multiplications. It is observed that the multiplications by zero do not have an effect on the result and can hence be removed. There are multiple ways of achieving a speed-up here, and it depends mostly on the developer's preferences. It would be possible to omit the zeros when loading \texttt{a[]} and \texttt{b[]} into the \texttt{LSU}. In this case the address stride is doubled to eight bytes so it skips over the zeros. This allows the number of instructions per iteration to be almost halved achieving a speedup of $27.0\%$.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \begin{center}
 \includegraphics[scale=0.265]{images/assem02.png}
 \caption{Excerpt from the Butterworth Filter code from alteration \ref{imp:B}: Loop Halving. Only lines 79 through 108 are shown to clarify alterations to the \texttt{IMM}, \texttt{LSU}, and \texttt{ALU}.}
@@ -90,9 +92,9 @@ From the \texttt{C}-implementation it can be seen that the arrays \texttt{a[]} a
 \subsection{Automatic Addressing}
 \label{imp:C}
 
-The exploration of targeting the implicit loading operations lead to negligible improvements. This was expected, as the changes to the code are outside of the main loop, and act as a preemptive optimization. This is completed by changing the \texttt{SLA} operation to a \texttt{SLI} operation with a stride of four. This removes the necessity to compute the memory addresses in the \texttt{ALU} which saves a whopping $42$ cycles.
+The exploration of targeting the implicit loading operations lead to negligible improvements. This was expected, as the changes to the code are outside of the main loop, and act as a preemptive optimization. This is completed by changing the \texttt{SLA} operation to a \texttt{SLI} operation with a stride of four. This removes the necessity to compute the memory addresses in the \texttt{ALU} which saves a whopping $42$ cycles. This is shown in Fig. \ref{fig:assem01} on the next page.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.35]{images/assem01.png}
 \caption{Excerpt from the Butterworth Filter code from alteration \ref{imp:C}: Automatic Addressing. Only lines 1 through 36 are shown to clarify alterations to the \texttt{IMM} and \texttt{LSU}.}
@@ -110,7 +112,7 @@ An attempt was made for loop unpacking, as a colleague informed us they were abl
 
 The resulting architecture is shown below:
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.35]{images/arch01.png}
 \caption{XML file showing additional connections}
@@ -118,7 +120,7 @@ The resulting architecture is shown below:
 \end{center}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.28]{images/arch.png}
 \caption{Graphical representation using Xdot Architecture file of new connections.}
@@ -126,8 +128,11 @@ The resulting architecture is shown below:
 \end{center}
 \end{figure}
 
+\pagebreak
 
 \section{Results}
+
+The results have been compiled and placed into Table \ref{tab:compare} below:
 
 \begin{table}[h!]
 \centering
@@ -148,43 +153,15 @@ $\Delta\pm\%$ (Naive) & $+0.00\%$ & $+7.80\%$ & $+48.42\%$ & $+48.43\%$ \\ \hlin
 \end{tabular}
 \end{table}
 
+With an end result of nearly $50\%$ performance boost, we can consider some implications about the \texttt{EDAP} with respect to the \texttt{CGRA}. Specifically, area does not change much, due to the layout of the \texttt{FU} and wires. Secondarily, it is advised to target optimizations that will reduce the total clock cycles, as this impacts the overall \texttt{EDAP}, including implicit reduction of energy, due to less run-time. By reducing the cycles by $27\%$, the \texttt{EDAP} was nearly halved.
+
 \section{Conclusion}
 
 Optimizations were chosen based on suggestions in the supplied cookbook and cooperation in classmates (including the implemented loop-halving and the attempted loop-unpacking). Changing the architecture, algorithms and even C-code reiterates that there are several ways to improve and optimize \texttt{CGRA} performance. Though, given the novelty of the project due to the nature of the \texttt{CGRA}, Toolchain, and \texttt{PASM} setup, it is not easy to debug errors and each iteration must be done with extreme care. As experienced in the loop unpacking attempt, one small error in the \texttt{PASM} may result in uncompilable code (which results in the server timing out after half a million cycles or automatically assuming values for inputs/outputs that are not properly connected).
 
+The final \texttt{EDAP} performance improvement over the naive Butterworth filter was $48.83\%$. This value was higher than expected, as it was anticipated that a great deal of effort would be needed to improve the naive implementation. This emphasizes the importance of proper software programming in concert with re-configurable hardware. A multitude of other approaches and optimizations could have been explore, had there been more time. 
 
 
-\begin{figure}[h]
-\begin{center}
-\includegraphics[scale=0.35]{images/O101.png}
-\caption{TODO}
-\label{fig:TODO3}
-\end{center}
-\end{figure}
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[scale=0.35]{images/O102.png}
-\caption{TODO}
-\label{fig:TODO4}
-\end{center}
-\end{figure}
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[scale=0.35]{images/O201.png}
-\caption{TODO}
-\label{fig:TODO5}
-\end{center}
-\end{figure}
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[scale=0.35]{images/O202.png}
-\caption{TODO}
-\label{fig:TODO6}
-\end{center}
-\end{figure}
 
 
 
