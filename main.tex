@@ -52,7 +52,7 @@ Erik Wouters (1325892)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-This electronic document is a ÒliveÓ template. The various components of your paper [title, text, heads, etc.] are already defined on the style sheet, as illustrated by the portions given in this document.
+The goal of this project is to analyze and optimize the Energy-Delay-Area Product (\texttt{EDAP}) on a Course Grain Re-configurable Architecture (\texttt{CGRA}) for a naive Butterworth filter used for EEG applications. The resulting improvement was $\textbf{48.43\%}$ over the naive filter.
 
 \end{abstract}
 
@@ -64,8 +64,14 @@ The goal of this report is to describe the process of improving a naive implemen
 The \texttt{FUs} run instructions in parallel. Each \texttt{FU} has it's own set of instructions. Their instructions are programmed in Parallel Assembly (\texttt{PASM}). Improvements over the naive implementation are compared by their energy, delay and area and the combined measure of these (\texttt{EDAP}).
 
 The \texttt{CGRA} is situated between the Von Neumann \texttt{CPU} architecture\cite{Neumann} and the \texttt{FPGA} in the computing landscape. While it is possible to create the traditional Von Neumann architecture in the \texttt{CGRA}, the bottlenecks for certain applications can be circumvented in the \texttt{CGRA}. It also supports the definition of custom \texttt{FUs}, which could theoretically provide \texttt{FPGA}-like functionality. Hence the best applications of the \texttt{CGRA} are found somewhere in between these two.
+\[
+EDAP = Energy \  x \  Delay_{cycles} \ x  \
+Area 
+\]
 
-
+\[
+Performance = \frac{EDAP_{old}-EDAP_{new}}{EDAP_{old}}*100
+\]
 
 \section{Optimizations}
 
@@ -122,7 +128,7 @@ The resulting architecture is shown below:
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=0.28]{images/arch.png}
+\includegraphics[scale=0.27]{images/arch.png}
 \caption{Graphical representation using Xdot Architecture file of new connections.}
 \label{fig:TODO2}
 \end{center}
