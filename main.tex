@@ -91,7 +91,7 @@ From the \texttt{C}-implementation it can be seen that the arrays \texttt{a[]} a
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=\linewidth]{images/assem02.png}
+\includegraphics[width=\linewidth]{images/assem03.png}
 \caption{Excerpt from the Butterworth Filter code from alteration \ref{imp:B}: Loop Halving. Only lines 79 through 108 are shown to clarify alterations to the \texttt{IMM}, \texttt{LSU}, and \texttt{ALU}.}
 \label{fig:assem02}
 \end{center}
@@ -128,13 +128,13 @@ The resulting architecture is shown below:
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure*}[ht]
 \begin{center}
-\includegraphics[scale=0.35]{images/arch.png}
+\includegraphics[width=\linewidth]{images/arch.png}
 \caption{Graphical representation using Xdot Architecture file of new connections.}
 \label{fig:TODO2}
 \end{center}
-\end{figure}
+\end{figure*}
 
 %\pagebreak
 
@@ -168,12 +168,6 @@ With an end result of nearly $50\%$ performance boost, we can consider some impl
 Optimizations were chosen based on suggestions in the supplied cookbook and cooperation in classmates (including the implemented loop-halving and the attempted loop-unpacking). Changing the architecture, algorithms and even C-code reiterates that there are several ways to improve and optimize \texttt{CGRA} performance. Though, given the novelty of the project due to the nature of the \texttt{CGRA}, Toolchain, and \texttt{PASM} setup, it is not easy to debug errors and each iteration must be done with extreme care. As experienced in the loop unpacking attempt, one small error in the \texttt{PASM} may result in uncompilable code (which results in the server timing out after half a million cycles or automatically assuming values for inputs/outputs that are not properly connected).
 
 The final \texttt{EDAP} performance improvement over the naive Butterworth filter was $48.83\%$. This value was higher than expected, as it was anticipated that a great deal of effort would be needed to improve the naive implementation. This emphasizes the importance of proper software programming in concert with re-configurable hardware. A multitude of other approaches and optimizations could have been explore, had there been more time. 
-
-
-
-
-
-
 
 
 
