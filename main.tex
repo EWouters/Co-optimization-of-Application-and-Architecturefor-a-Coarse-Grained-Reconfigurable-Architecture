@@ -77,7 +77,7 @@ By adding the bypass and running various \texttt{Make} features, it can be shown
 \subsection{Loop Halving}
 \label{imp:B}
 
-From the \texttt{C}-implementation it can be seen that the arrays \texttt{a} and \texttt{b} contain zeros alternating with integers which will be used for multiplications. It is observed that the multiplications by zero do not have an effect on the result and can hence be removed. There are multiple ways of achieving a speed-up here, and it depends mostly on the developer's preferences. It would be possible to omit the $0$s when loading \texttt{a} and \texttt{b} into the \texttt{LSU}. In this case the address stride is doubled to eight bytes so it skips over the zeros. This allows the number of instructions per iteration to be almost halved achieving a SPEEDUP.
+From the \texttt{C}-implementation it can be seen that the arrays \texttt{a[]} and \texttt{b[]} contain zeros alternating with integers which will be used for multiplications. It is observed that the multiplications by zero do not have an effect on the result and can hence be removed. There are multiple ways of achieving a speed-up here, and it depends mostly on the developer's preferences. It would be possible to omit the zeros when loading \texttt{a[]} and \texttt{b[]} into the \texttt{LSU}. In this case the address stride is doubled to eight bytes so it skips over the zeros. This allows the number of instructions per iteration to be almost halved achieving a speedup of $27.0\%$.
 
 \begin{figure}[h]
 \begin{center}
@@ -90,7 +90,7 @@ From the \texttt{C}-implementation it can be seen that the arrays \texttt{a} and
 \subsection{Automatic Addressing}
 \label{imp:C}
 
-The exploration of targeting the implicit loading operations lead to negligible improvements. This was expected, as the changes to the code are outside of the main loop, and act as a preemptive optimization. This is completed by changing the \texttt{SLA} operation to a \texttt{SLI} operation with a stride of four. This removes the necessity to compute the memory addresses in the \texttt{ALU} which saves $60$ cycles.
+The exploration of targeting the implicit loading operations lead to negligible improvements. This was expected, as the changes to the code are outside of the main loop, and act as a preemptive optimization. This is completed by changing the \texttt{SLA} operation to a \texttt{SLI} operation with a stride of four. This removes the necessity to compute the memory addresses in the \texttt{ALU} which saves a whopping $42$ cycles.
 
 \begin{figure}[h]
 \begin{center}
@@ -131,6 +131,8 @@ The resulting architecture is shown below:
 
 \begin{table}[h!]
 \centering
+\caption{Table comparing Duration to Start and End times.}
+\label{tab:compare}
 \vspace{5pt}
 \centering
 \begin{tabular}{|l|c|c|c|c|}
@@ -140,12 +142,10 @@ The resulting architecture is shown below:
 Energy [pJ] & $8813057.25$  & $8506457.25$ & $6213457.25$ & $6213089.50$ \\ \hline
 Cycles & $896146$ & $854146$ & $654146$ & $654104$ \\ \hline
 Area [$\mu m^2$] & $89819$ & $90019$ & $90019$ & $90019$ \\ \hline
-EDAP & $7.093712409$ & $6.540561285$ & TODO & TODO \\ \hline
-$\Delta\pm\%$ (Naive) & $+0.00\%$ & TODO & TODO & TODO \\ \hline
+EDAP & $0.70937$ & $0.65406$ & $0.36588$ & $0.36584$ \\ \hline
+$\Delta\pm\%$ (Naive) & $+0.00\%$ & $+7.80\%$ & $+48.42\%$ & $+48.43\%$ \\ \hline
 
 \end{tabular}
-\caption{Table comparing Duration to Start and End times.}
-\label{tab:compare}
 \end{table}
 
 \section{Conclusion}
